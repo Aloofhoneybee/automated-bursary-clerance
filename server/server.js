@@ -10,7 +10,23 @@ const app = express();
 // Security & utility middleware
 app.use(helmet());
 app.use(morgan('dev'));
-app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
+app.use(cors({
+  origin: function(origin, callback) {
+    const allowed = [
+      process.env.CLIENT_URL,
+      'http://localhost:5173',
+      'http://127.0.0.1:5173'
+    ];
+    const isVercelPreview = origin && origin.endsWith('.vercel.app') && origin.includes('caleb-automated-bursary-clerance');
+    
+    if (!origin || allowed.includes(origin) || isVercelPreview) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
 
 // Body parsers
 // NOTE: webhook route must use raw body — we'll override this in the webhook route
