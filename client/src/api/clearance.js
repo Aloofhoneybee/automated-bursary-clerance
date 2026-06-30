@@ -1,4 +1,4 @@
-import request from './client';
+import request, { BASE_URL } from './client';
 
 export const getMyClearanceStatus = () => request('/clearance/my-status');
 
@@ -16,7 +16,7 @@ export const overrideClearance = (studentId, status, comment, scope) =>
 
 export const downloadCertificate = async () => {
   const token = localStorage.getItem('token');
-  const response = await fetch('/api/clearance/certificate', {
+  const response = await fetch(`${BASE_URL}/clearance/certificate`, {
     headers: { Authorization: `Bearer ${token}` },
   });
   if (!response.ok) {

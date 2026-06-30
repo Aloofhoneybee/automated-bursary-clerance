@@ -4,6 +4,7 @@ import {
   markAllNotificationsAsRead, 
   clearAllNotifications 
 } from '../api/notifications';
+import { BASE_URL } from '../api/client';
 
 
 // Fee Structure View
@@ -260,7 +261,7 @@ export function InvoicesView({ studentData, feeStructure }) {
     setDownloading(true);
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('/api/payments/invoice', {
+      const response = await fetch(`${BASE_URL}/payments/invoice`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -376,7 +377,7 @@ export function PaymentHistoryView({ transactions }) {
     setDownloadingRef(reference);
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/payments/receipt/${reference}`, {
+      const response = await fetch(`${BASE_URL}/payments/receipt/${reference}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
